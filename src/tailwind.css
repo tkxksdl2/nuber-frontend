@@ -1,8 +1,8 @@
 @tailwind base;
 @tailwind components;
 
-.btn {
-  @apply px-4 py-2 bg-blue-600 text-white rounded;
+.input {
+  @apply p-3 text-lg font-light border border-gray-200 focus:outline-none focus:border-gray-500 transition-colors;
 }
 
 @tailwind utilities;
