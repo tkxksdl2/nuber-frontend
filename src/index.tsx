@@ -5,6 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 import "./styles/styles.css";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo";
+import { HelmetProvider } from "react-helmet-async";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -12,7 +14,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <Router>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </Router>
     </ApolloProvider>
   </React.StrictMode>
 );
