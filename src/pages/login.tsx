@@ -1,5 +1,4 @@
-import { ApolloError, gql, useMutation } from "@apollo/client";
-import React from "react";
+import { gql, useMutation } from "@apollo/client";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -45,19 +44,18 @@ export const Login = () => {
       isLoggedInVar(true);
     }
   };
-  const [loginMutaion, { loading, error, data: loginMutationResult }] =
-    useMutation<LoginClientMutation, LoginClientMutationVariables>(
-      LOGIN_MUTATION,
-      {
-        variables: {
-          loginInput: {
-            email: watch("email"),
-            password: watch("password"),
-          },
-        },
-        onCompleted: onCompleted,
-      }
-    );
+  const [loginMutaion, { loading, data: loginMutationResult }] = useMutation<
+    LoginClientMutation,
+    LoginClientMutationVariables
+  >(LOGIN_MUTATION, {
+    variables: {
+      loginInput: {
+        email: watch("email"),
+        password: watch("password"),
+      },
+    },
+    onCompleted: onCompleted,
+  });
   const onSubmit = async () => {
     if (!loading) {
       await loginMutaion();

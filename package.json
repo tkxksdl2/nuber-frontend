@@ -29,7 +29,7 @@
   "scripts": {
     "tailwind:watch": "npx tailwindcss -i ./src/tailwind.css -o ./src/styles/styles.css --watch",
     "tailwind:build": "npx tailwindcss -i ./src/tailwind.css -o ./src/styles/styles.css",
-    "start": "npm run codegen && npm run tailwind:build && set PORT=3001 && react-scripts start",
+    "start": "npm run codegen && npm run tailwind:build && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
