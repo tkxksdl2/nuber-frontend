@@ -12,7 +12,7 @@ import {
 } from "../gql/graphql";
 import nuberLogo from "../images/nuber-logo.svg";
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation LoginClient($loginInput: LoginInput!) {
     login(input: $loginInput) {
       token

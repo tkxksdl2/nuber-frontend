@@ -5,12 +5,12 @@ import { App } from "../app";
 
 jest.mock("../../routers/logged-out-router", () => {
   return {
-    LoggedOutRouter: () => <span>logged-out</span>,
+    LoggedOutRouter: () => <span data-testid="is-logged-in">logged-out</span>,
   };
 });
 jest.mock("../../routers/logged-in-router", () => {
   return {
-    LoggedInRouter: () => <span>logged-in</span>,
+    LoggedInRouter: () => <span data-testid="is-logged-in">logged-in</span>,
   };
 });
 
@@ -22,11 +22,11 @@ describe("<App />", () => {
 
   it("renders LoggedInRouter", async () => {
     render(<App />);
+    isLoggedInVar(true);
     await waitFor(() => {
-      isLoggedInVar(true);
-      console.log(isLoggedInVar());
+      expect(screen.getByTestId("is-logged-in")).toHaveTextContent(
+        "loggded-in"
+      );
     });
-    screen.getByText("logged-in");
-    console.log(isLoggedInVar());
   });
 });

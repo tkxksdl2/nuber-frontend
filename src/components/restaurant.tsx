@@ -50,7 +50,6 @@ export const RestaurantList: React.FC<IRestaurantListProp> = ({
   const onPrevPageClick = () => {
     setPage((current) => (current -= 1));
   };
-
   if (restaurants) {
     return (
       <>
