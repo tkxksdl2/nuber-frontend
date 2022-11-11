@@ -11,7 +11,7 @@ export const NotFound = () => (
     <h4 className="font-medium text-base mb-5">
       The page you're looking for does not exist or has moved.
     </h4>
-    <Link to="/" className="hover:underline font-semibold text-lime-500">
+    <Link to="/" className="link">
       Go back home &rarr;
     </Link>
   </div>

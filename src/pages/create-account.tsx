@@ -71,17 +71,14 @@ export const CreateAccount = () => {
   };
 
   return (
-    <div className="h-screen flex items-center flex-col mt-10 lg:mt-32 font-semibold">
+    <div className="flex-container">
       <Helmet>
         <title>CreateAccount | Nuber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
         <img src={nuberLogo} className="w-60 mb-10" alt="not found" />
         <h4 className="w-full text-3xl">Lets' get started</h4>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="grid gap-3 mt-5 mb-2 w-full "
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="grid-form">
           <input
             {...register("email", {
               required: "Email is required",
@@ -127,7 +124,7 @@ export const CreateAccount = () => {
           </select>
           <Button
             canClick={isValid}
-            loading={false}
+            loading={loading}
             actionText="Create Account"
           />
           {createAccountMutationResult?.createAccount.error && (

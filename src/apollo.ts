@@ -25,24 +25,26 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          isLoggedIn: {
-            read() {
-              return isLoggedInVar();
-            },
+export const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        isLoggedIn: {
+          read() {
+            return isLoggedInVar();
           },
-          token: {
-            read() {
-              return authToken();
-            },
+        },
+        token: {
+          read() {
+            return authToken();
           },
         },
       },
     },
-  }),
+  },
+});
+
+export const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache,
 });

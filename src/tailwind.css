@@ -20,5 +20,15 @@
 .container {
   @apply max-w-screen-2xl mx-auto mt-8 pb-20 px-5 2xl:px-0;
 }
+.flex-container {
+  @apply h-screen flex items-center flex-col mt-10 lg:mt-32 font-semibold;
+}
 
+.grid-form {
+  @apply grid gap-3 mt-5 mb-2 w-full;
+}
+
+.link {
+  @apply text-lime-600 hover:underline font-semibold;
+}
 @tailwind utilities;
