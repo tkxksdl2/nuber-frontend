@@ -3,14 +3,26 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
-import { DISH_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragment";
+import {
+  DISH_FRAGMENT,
+  ORDERS_FRAGMENT,
+  RESTAURANT_FRAGMENT,
+} from "../../fragment";
 import { useFragment } from "../../gql";
 import {
   DishPartsFragment,
   MyRestaurantQuery,
   MyRestaurantQueryVariables,
+  OrderPartsFragment,
   RestaurantPartsFragment,
 } from "../../gql/graphql";
+import {
+  VictoryChart,
+  VictoryVoronoiContainer,
+  VictoryLine,
+  VictoryAxis,
+  VictoryTooltip,
+} from "victory";
 
 export const MY_RESTAURANT_QUERY = gql`
   query myRestaurant($input: MyRestaurantInput!) {
@@ -22,11 +34,15 @@ export const MY_RESTAURANT_QUERY = gql`
         menu {
           ...DishParts
         }
+        orders {
+          ...OrderParts
+        }
       }
     }
   }
   ${RESTAURANT_FRAGMENT}
   ${DISH_FRAGMENT}
+  ${ORDERS_FRAGMENT}
 `;
 
 type IParams = {
@@ -47,7 +63,11 @@ export const MyRestaurant = () => {
     DISH_FRAGMENT,
     data?.myRestaurant.restaurant.menu
   );
-
+  const orders = useFragment<OrderPartsFragment>(
+    ORDERS_FRAGMENT,
+    data?.myRestaurant.restaurant.orders
+  );
+  console.log(orders);
   return (
     <div>
       <Helmet>
@@ -77,8 +97,9 @@ export const MyRestaurant = () => {
             <h4 className=" test-xl mb-5">Please upload a dish!</h4>
           ) : (
             <div className="grid md:grid-cols-3 gap-x-5 gap-y-10 mt-8">
-              {menu?.map((dish) => (
+              {menu?.map((dish, index) => (
                 <Dish
+                  key={index}
                   name={dish.name}
                   price={dish.price}
                   description={dish.description}
@@ -86,6 +107,45 @@ export const MyRestaurant = () => {
               ))}
             </div>
           )}
+          <div className="mt-20 mb-10">
+            <h4 className="text-center text-2xl font-medium">sales</h4>
+            <VictoryChart
+              domainPadding={{ y: 50 }}
+              padding={{ left: 100, top: 50, bottom: 50, right: 50 }}
+              height={400}
+              width={window.innerWidth}
+              containerComponent={<VictoryVoronoiContainer />}
+            >
+              <VictoryLine
+                labels={({ datum }) => `￦ ${datum.y / 10000}M`}
+                labelComponent={<VictoryTooltip renderInPortal dy={-20} />}
+                data={orders?.map((order) => ({
+                  x: order.createdAt,
+                  y: order.total,
+                }))}
+                interpolation="natural"
+                style={{
+                  data: {
+                    strokeWidth: 3,
+                  },
+                }}
+              />
+              <VictoryAxis
+                style={{
+                  tickLabels: { fontSize: 20, fill: "#4D7C0F" },
+                }}
+                dependentAxis
+                tickFormat={(tick) => `￦ ${tick / 10000}M`}
+              />
+              <VictoryAxis
+                style={{
+                  tickLabels: { fontSize: 20 },
+                }}
+                label="Days"
+                tickFormat={(tick) => new Date(tick).toLocaleDateString("ko")}
+              />
+            </VictoryChart>
+          </div>
         </div>
       </div>
     </div>
