@@ -25,7 +25,7 @@ const clientRoutes = [
     element: <Search />,
   },
   {
-    path: "/cataegory/:slug",
+    path: "/category/:slug",
     element: <Category />,
   },
   {

@@ -31,4 +31,8 @@
 .link {
   @apply text-lime-600 hover:underline font-semibold;
 }
+
+.btn {
+  @apply p-3 font-medium text-white  transition-colors bg-emerald-400 hover:bg-emerald-700 focus:outline-none;
+}
 @tailwind utilities;
