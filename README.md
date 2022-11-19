@@ -4,6 +4,8 @@ uber-eats clone project
 
 Client, Owner, Delivery man Role based food ordering system.
 
+backend Repo => (https://github.com/tkxksdl2/nest-backend)
+
 Still working on improvements
 
 ## stacks
