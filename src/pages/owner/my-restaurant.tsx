@@ -1,19 +1,22 @@
-import { gql, useQuery } from "@apollo/client";
-import React from "react";
+import { gql, useQuery, useSubscription } from "@apollo/client";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
 import {
   DISH_FRAGMENT,
+  FULL_ORDER_FRAGMENT,
   ORDERS_FRAGMENT,
   RESTAURANT_FRAGMENT,
 } from "../../fragment";
 import { useFragment } from "../../gql";
 import {
   DishPartsFragment,
+  FullOrderPartsFragment,
   MyRestaurantQuery,
   MyRestaurantQueryVariables,
   OrderPartsFragment,
+  PendingOrdersSubscription,
   RestaurantPartsFragment,
 } from "../../gql/graphql";
 import {
@@ -45,6 +48,15 @@ export const MY_RESTAURANT_QUERY = gql`
   ${ORDERS_FRAGMENT}
 `;
 
+export const PENDING_ORDERS_SUBSCRIPTION = gql`
+  subscription pendingOrders {
+    pendingOrders {
+      ...FullOrderParts
+    }
+  }
+  ${FULL_ORDER_FRAGMENT}
+`;
+
 type IParams = {
   id: string;
 };
@@ -67,7 +79,19 @@ export const MyRestaurant = () => {
     ORDERS_FRAGMENT,
     data?.myRestaurant.restaurant.orders
   );
-  console.log(orders);
+  const { data: subscriptionData } = useSubscription<PendingOrdersSubscription>(
+    PENDING_ORDERS_SUBSCRIPTION
+  );
+  const pendingOrders = useFragment<FullOrderPartsFragment>(
+    FULL_ORDER_FRAGMENT,
+    subscriptionData?.pendingOrders
+  );
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (pendingOrders?.id) {
+      navigate(`/orders/${pendingOrders.id}`);
+    }
+  }, [pendingOrders]);
   return (
     <div>
       <Helmet>

@@ -2,7 +2,7 @@ import { InMemoryCache, useApolloClient } from "@apollo/client";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authToken, cache, isLoggedInVar } from "../apollo";
 import { LOCALSTORAGE_TOKEN } from "../constant";
 import { useMe } from "../hooks/useMe";
@@ -10,6 +10,7 @@ import nuberLogo from "../images/nuber-logo.svg";
 
 export const Header: React.FC = () => {
   const { data } = useMe();
+  const navigate = useNavigate();
   return (
     <React.Fragment>
       {!data?.me.verified && (
@@ -30,7 +31,9 @@ export const Header: React.FC = () => {
                 localStorage.removeItem(LOCALSTORAGE_TOKEN);
                 authToken(null);
                 isLoggedInVar(false);
-                cache.evict({ id: `User:${data?.me.id}` + "" });
+                // cache.evict({ id: `User:${data?.me.id}` + "" });
+                cache.reset();
+                navigate("/");
               }}
             >
               logout
