@@ -1,6 +1,5 @@
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { flushSync } from "react-dom";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +36,7 @@ export const AddRestaurant = () => {
 
   const onCompleted = (data: CreateRestaurantMutation) => {
     const {
-      createRestaurant: { ok, error, restaurantId },
+      createRestaurant: { ok, restaurantId },
     } = data;
     if (ok) {
       setUploading(false);
@@ -83,7 +82,7 @@ export const AddRestaurant = () => {
     register,
     getValues,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<IFormProps>({ mode: "onBlur" });
 
   const onSubmit = async () => {

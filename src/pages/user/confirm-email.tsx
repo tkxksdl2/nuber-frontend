@@ -59,7 +59,9 @@ export const ConfirmEmail = () => {
       <Helmet>
         <title>VerifiEmail | Nuber Eats</title>
       </Helmet>
-      <h2 className="text-lg mb-2 font-semibold">Confirming email...</h2>
+      {verifyingEmail && (
+        <h2 className="text-lg mb-2 font-semibold">Confirming email...</h2>
+      )}
       <h4 className=" text-gray-700">Please wait, don't close this page</h4>
     </div>
   );

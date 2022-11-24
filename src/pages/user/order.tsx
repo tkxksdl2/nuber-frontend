@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
@@ -64,7 +64,7 @@ export const Order = () => {
       },
     },
   });
-  const [editOrderMutation, { loading }] = useMutation<
+  const [editOrderMutation] = useMutation<
     EditOrderMutation,
     EditOrderMutationVariables
   >(EDIT_ORDER);
