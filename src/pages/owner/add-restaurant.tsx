@@ -85,6 +85,11 @@ export const AddRestaurant = () => {
     formState: { isValid },
   } = useForm<IFormProps>({ mode: "onBlur" });
 
+  const fetchUrl =
+    process.env.NODE_ENV === "production"
+      ? "https://nuber-eats-backend-tkxksdl2.herokuapp.com/uploads/"
+      : "http://localhost:4000/uploads/";
+
   const onSubmit = async () => {
     try {
       setUploading(true);
@@ -93,7 +98,7 @@ export const AddRestaurant = () => {
       const formBody = new FormData();
       formBody.append("file", actualFile);
       const { url } = await (
-        await fetch("http://localhost:4000/uploads/", {
+        await fetch(fetchUrl, {
           method: "POST",
           body: formBody,
         })
