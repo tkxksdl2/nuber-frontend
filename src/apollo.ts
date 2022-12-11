@@ -20,7 +20,7 @@ const wsLink = new GraphQLWsLink(
   createClient({
     url:
       process.env.NODE_ENV === "production"
-        ? "wss://nuber-eats-backend-tkxksdl2.herokuapp.com/graphql"
+        ? "ws://" + window.location.host + "/ws"
         : "ws://localhost:4000/graphql",
     connectionParams: {
       "X-JWT": authToken() || "",
@@ -31,7 +31,7 @@ const wsLink = new GraphQLWsLink(
 const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? "https://nuber-eats-backend-tkxksdl2.herokuapp.com/graphql"
+      ? window.location.origin + "/server"
       : "http://localhost:4000/graphql",
 });
 

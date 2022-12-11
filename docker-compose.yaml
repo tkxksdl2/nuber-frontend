@@ -1,0 +1,58 @@
+services:
+  nuber-db:
+    image: postgres
+    networks:
+      - nuber-network
+    volumes:
+      - nuber-postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/nuber-secret/POSTGRES_PASSWORD
+    secrets:
+      - nuber-secret
+
+  nest-backend:
+    image: whalebro/nest-backend:test5
+    container_name: nest-backend
+    ports:
+      - "4000:4000"
+    networks:
+      - nuber-network
+    environment:
+      DB_HOST: nuber-db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD_FILE: /run/secrets/nuber-secret/DB_PASSWORD
+      DB_NAME: postgres
+      PRIVATE_KEY_FILE: /run/secrets/nuber-secret/PRIVATE_KEY
+      MAILGUN_API_KEY_FILE: /run/secrets/nuber-secret/MAILGUN_API_KEY
+      MAILGUN_DOMAIN_NAME_FILE: /run/secrets/nuber-secret/MAILGUN_DOMAIN_NAME
+      MAILGUN_FROM_EMAIL_FILE: /run/secrets/nuber-secret/MAILGUN_FROM_EMAIL
+      AWS_ACCESS_KEY_FILE: /run/secrets/nuber-secret/AWS_ACCESS_KEY
+      AWS_SECRET_ACCESS_KEY_FILE: /run/secrets/nuber-secret/AWS_SECRET_ACCESS_KEY
+    secrets:
+      - nuber-secret
+
+  nuber-front:
+    image: whalebro/nuber-front
+    networks:
+      - nuber-network
+    ports:
+      - "80:80"
+    links:
+      - nest-backend
+    depends_on:
+      - nuber-db
+      - nest-backend
+
+networks:
+  nuber-network:
+
+volumes:
+  nuber-postgres-data:
+
+secrets:
+  nuber-secret:
+    name: "arn:aws:secretsmanager:us-east-1:620130441517:secret:nuber_secret-9oS5Eh"
+    external: true
+    x-aws-keys:
+      - "*"

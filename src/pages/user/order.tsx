@@ -101,7 +101,6 @@ export const Order = () => {
     FULL_ORDER_FRAGMENT,
     data?.getOrder.order
   );
-  console.log(data);
 
   const onButtonClick = (newStatus: OrderStatus) => {
     editOrderMutation({

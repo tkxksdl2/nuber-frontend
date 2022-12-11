@@ -87,7 +87,7 @@ export const AddRestaurant = () => {
 
   const fetchUrl =
     process.env.NODE_ENV === "production"
-      ? "https://nuber-eats-backend-tkxksdl2.herokuapp.com/uploads/"
+      ? window.location.origin + "/uploads/"
       : "http://localhost:4000/uploads/";
 
   const onSubmit = async () => {
